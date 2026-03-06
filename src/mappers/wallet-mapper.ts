@@ -15,6 +15,7 @@ export class WalletMapper {
       accountId: wallet.accountId,
       description: wallet.description,
       type: wallet.type as WalletTypeEnum,
+      color: wallet.color,
       walletAutomaticIncome: {
         amount: wallet.automaticIncomeAmount,
         paymentDay: wallet.automaticIncomeDay,
@@ -46,6 +47,7 @@ export class WalletMapper {
       name: wallet.name || "",
       isActive: !!wallet.isActive,
       type: wallet.type || "",
+      color: wallet.color,
     };
     return mapped as PrismaWallet;
   }
