@@ -45,8 +45,8 @@ model File {
 }
 
 model Wallet {
-  id                    String               @id @default(uuid())
-  name                  String               @unique
+  id                    String        @id @default(uuid())
+  name                  String
   type                  String
   description           String?
   amount                Int
