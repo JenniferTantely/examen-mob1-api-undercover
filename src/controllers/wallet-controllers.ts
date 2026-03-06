@@ -55,7 +55,7 @@ export class WalletController {
     try {
       const { walletId } = req.params;
       const accountId = (req as any).account.id;
-      const data = await WalletServices.getOneById(accountId, walletId as string);
+      const data = await WalletServices.archiveOneById(accountId, walletId as string);
       res.json(WalletMapper.toRest(data));
     } catch (err) {
       next(err);
