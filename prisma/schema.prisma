@@ -50,7 +50,7 @@ model File {
 
 model Wallet {
   id                    String        @id @default(uuid())
-  name                  String        @unique
+  name                  String
   type                  String
   description           String?
   amount                Int

@@ -9,7 +9,7 @@ import { filterIfNotNull } from "@/utilities";
 
 export class WalletServices {
   static async create(accountId: string, wallet: CreationWallet) {
-    const getWalletByName = await getPrismaClient().wallet.findFirst({ where: { name: wallet.name, accountId } });
+    const getWalletByName = await getPrismaClient().wallet.findFirst({ where: { name: wallet.name, accountId, isArchived: false } });
     if (getWalletByName) throw new ApiError(`Wallet with name=${wallet.name} already exist`, 400);
     return await getPrismaClient().wallet.create({ data: WalletMapper.create(accountId, wallet) });
   }
@@ -17,7 +17,7 @@ export class WalletServices {
     const getWalletById = await getPrismaClient().wallet.findFirst({ where: { id: wallet.id, accountId } });
     if (!getWalletById) throw new ApiError(`Wallet with id=${wallet.id} not found`, 404);
 
-    const getWalletByName = await getPrismaClient().wallet.findFirst({ where: { name: wallet.name, accountId, id: { not: wallet.id } } });
+    const getWalletByName = await getPrismaClient().wallet.findFirst({ where: { name: wallet.name, accountId, id: { not: wallet.id }, isArchived: false } });
     if (getWalletByName) throw new ApiError(`Wallet with name=${wallet.name} already exist`, 400);
 
     return await getPrismaClient().wallet.update({ data: WalletMapper.update(accountId, wallet), where: { id: wallet.id, accountId } });
