@@ -1,11 +1,17 @@
 import { CreationWallet, UpdateWallet, WalletAutomaticIncome } from "@clients";
 import { v4 } from "uuid";
 
+
+
 import { getPrismaClient } from "@/configs";
 import { ApiError } from "@/errors";
 import { WalletMapper } from "@/mappers";
 import { ListFilters, NameFilter, WalletFilter } from "@/types";
 import { filterIfNotNull } from "@/utilities";
+
+
+
+
 
 export class WalletServices {
   static async create(accountId: string, wallet: CreationWallet) {
@@ -22,15 +28,25 @@ export class WalletServices {
 
     return await getPrismaClient().wallet.update({ data: WalletMapper.update(accountId, wallet), where: { id: wallet.id, accountId } });
   }
-  static async updateAutomaticIncome(accountId: string, walletId: string, automaticIncome: WalletAutomaticIncome) {
-    const getWalletById = await getPrismaClient().wallet.findFirst({ where: { id: walletId, accountId } });
+  static async updateAutomaticIncome(
+    accountId: string,
+    walletId: string,
+    automaticIncome: WalletAutomaticIncome
+  ) {
+    const getWalletById = await getPrismaClient().wallet.findFirst({
+      where: { id: walletId, accountId }
+    });
     if (!getWalletById) throw new ApiError(`Wallet with id=${walletId} not found`, 404);
 
     getWalletById.automaticIncomeAmount = automaticIncome.amount;
     getWalletById.automaticIncomeDay = automaticIncome.paymentDay;
-    getWalletById.isActive = automaticIncome.type === "MENSUAL";
+    getWalletById.haveAutomaticIncome = automaticIncome.type === "MENSUAL";
+    getWalletById.automaticIncomeLabelId = automaticIncome.labelId ?? null; // ← ajouté
 
-    return await getPrismaClient().wallet.update({ data: getWalletById, where: { id: walletId, accountId } });
+    return await getPrismaClient().wallet.update({
+      data: getWalletById,
+      where: { id: walletId, accountId }
+    });
   }
 
   static async getOneById(accountId: string, id: string) {

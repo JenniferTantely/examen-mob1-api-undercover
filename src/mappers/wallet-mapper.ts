@@ -20,6 +20,7 @@ export class WalletMapper {
         amount: wallet.automaticIncomeAmount,
         paymentDay: wallet.automaticIncomeDay,
         type: wallet.haveAutomaticIncome ? "MENSUAL" : "NOT_SPECIFIED",
+        labelId: wallet.automaticIncomeLabelId ?? undefined,
       },
     };
     return mapped;

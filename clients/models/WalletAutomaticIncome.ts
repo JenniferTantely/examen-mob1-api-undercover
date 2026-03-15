@@ -13,6 +13,10 @@
  */
 import { mapValues } from "../runtime";
 
+
+
+
+
 /**
  *
  * @export
@@ -39,6 +43,7 @@ export interface WalletAutomaticIncome {
    * @memberof WalletAutomaticIncome
    */
   paymentDay?: number;
+  labelId?: string;
 }
 
 /**
@@ -69,6 +74,7 @@ export function WalletAutomaticIncomeFromJSONTyped(json: any, ignoreDiscriminato
     type: json["type"] == null ? undefined : json["type"],
     amount: json["amount"] == null ? undefined : json["amount"],
     paymentDay: json["paymentDay"] == null ? undefined : json["paymentDay"],
+    labelId: json["labelId"] == null ? undefined : json["labelId"], // ← ajouté
   };
 }
 
@@ -85,5 +91,6 @@ export function WalletAutomaticIncomeToJSONTyped(value?: WalletAutomaticIncome |
     type: value["type"],
     amount: value["amount"],
     paymentDay: value["paymentDay"],
+    labelId: value["labelId"], // ← ajouté
   };
 }
