@@ -13,7 +13,7 @@ export class TransactionServices {
   static async create(accountId: string, walletId: string, transaction: PrismaTransaction, labels: Label[]) {
     const mappedLabelsIds = await LabelValidator.list(accountId, labels);
 
-    if (new Date(transaction.date).getTime() <= new Date().getTime()) {
+    if (new Date(transaction.date).getTime() <= new Date().getTime() + 60000) {
       const currentWallet = await WalletServices.getOneById(accountId, walletId);
       currentWallet.amount += transaction.amount * (transaction.type === "IN" ? 1 : -1);
       await getPrismaClient().wallet.update({ data: currentWallet, where: { accountId, id: walletId } });
